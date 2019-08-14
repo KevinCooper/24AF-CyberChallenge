@@ -1,0 +1,13 @@
+scp dirty_32 jtaylor@172.17.50.151:~/ && ssh jtaylor@172.17.50.151
+
+iptables -I INPUT -p tcp --dport 22 -s 10.2.1.127 -j ACCEPT
+iptables -I INPUT -p tcp --dport 22 -s 10.2.1.9 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j DROP
+
+iptables -A INPUT -p tcp --dport 2525 -j DROP
+
+iptables -I INPUT -p tcp --dport 110 -s 10.3.1.222 -j DROP
+while true; do clear; date ; netstat -natpu | grep EST | grep -v 127; sleep 2; done 
+
+m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+/etc/dovecot

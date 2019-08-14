@@ -1,0 +1,80 @@
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+syslog:x:101:103::/home/syslog:/bin/false
+messagebus:x:102:105::/var/run/dbus:/bin/false
+colord:x:103:108:colord colour management daemon,,,:/var/lib/colord:/bin/false
+lightdm:x:104:111:Light Display Manager:/var/lib/lightdm:/bin/false
+whoopsie:x:105:114::/nonexistent:/bin/false
+avahi-autoipd:x:106:117:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+avahi:x:107:118:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+usbmux:x:108:46:usbmux daemon,,,:/home/usbmux:/bin/false
+kernoops:x:109:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+rtkit:x:111:122:RealtimeKit,,,:/proc:/bin/false
+speech-dispatcher:x:112:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/sh
+hplip:x:113:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+saned:x:114:123::/home/saned:/bin/false
+smmta:x:110:119:Mail Transfer Agent,,,:/var/lib/sendmail:/bin/false
+smmsp:x:115:120:Mail Submission Program,,,:/var/lib/sendmail:/bin/false
+statd:x:116:65534::/var/lib/nfs:/bin/false
+kkatarn:x:1001:1001:kkatarn:/home/kkatarn:/bin/bash
+revan:x:1002:1002:revan:/home/revan:/bin/bash
+mjade:x:1003:1003:mjade:/home/mjade:/bin/bash
+qjinn:x:1004:1004:qjinn:/home/qjinn:/bin/bash
+mwindu:x:1005:1005:mwindu:/home/mwindu:/bin/bash
+lskywalker:x:1006:1006:lskywalker:/home/lskywalker:/bin/bash
+okenobi:x:1007:1007:okenobi:/home/okenobi:/bin/bash
+yoda:x:1008:1008:yoda:/home/yoda:/bin/bash
+pkoon:x:1009:1009:pkoon:/home/pkoon:/bin/bash
+kfisto:x:1010:1010:kfisto:/home/kfisto:/bin/bash
+msurik:x:1011:1011:msurik:/home/msurik:/bin/bash
+gackbar:x:1012:1012:gackbar:/home/gackbar:/bin/bash
+chewbacca:x:1013:1013:chewbacca:/home/chewbacca:/bin/bash
+arand:x:1014:1014:arand:/home/arand:/bin/bash
+borgana:x:1015:1015:borgana:/home/borgana:/bin/bash
+bskywalker:x:1016:1016:bskywalker:/home/bskywalker:/bin/bash
+jbindo:x:1017:1017:jbindo:/home/jbindo:/bin/bash
+hk47:x:1018:1018:hk47:/home/hk47:/bin/bash
+mmothma:x:1019:1019:mmothma:/home/mmothma:/bin/bash
+lorgana:x:1020:1020:lorgana:/home/lorgana:/bin/bash
+vmarr:x:1021:1021:vmarr:/home/vmarr:/bin/bash
+askywalker:x:1022:1022:askywalker:/home/askywalker:/bin/bash
+lcalrissian:x:1023:1023:lcalrissian:/home/lcalrissian:/bin/bash
+huyang:x:1024:1024:huyang:/home/huyang:/bin/bash
+bjermer:x:1025:1025:bjermer:/home/bjermer:/bin/bash
+hsolo:x:1026:1026:hsolo:/home/hsolo:/bin/bash
+r2d2:x:1027:1027:r2d2:/home/r2d2:/bin/bash
+zaalbar:x:1028:1028:zaalbar:/home/zaalbar:/bin/bash
+hanharr:x:1029:1029:hanharr:/home/hanharr:/bin/bash
+c3po:x:1030:1030:c3po:/home/c3po:/bin/bash
+pamidala:x:1031:1031:pamidala:/home/pamidala:/bin/bash
+wantilles:x:1032:1032:wantilles:/home/wantilles:/bin/bash
+t3m4:x:1033:1033:t3m4:/home/t3m4:/bin/bash
+cordo:x:1034:1034:cordo:/home/cordo:/bin/bash
+bshan:x:1035:1035:bshan:/home/bshan:/bin/bash
+conasi:x:1036:1036:conasi:/home/conasi:/bin/bash
+mvao:x:1037:1037:mvao:/home/mvao:/bin/bash
+jporkins:x:1038:1038:jporkins:/home/jporkins:/bin/bash
+moconnor:x:1039:1039:moconnor:/home/moconnor:/bin/bash
+grievous:x:1040:1040:grievous,,,:/home/grievous:/bin/bash
+bfortuna:x:1041:1041:bfortuna,,,:/home/bfortuna:/bin/bash
+jcbaoth:x:1042:1042:jcbaoth,,,:/home/jcbaoth:/bin/bash
+sshd:x:117:65534::/var/run/sshd:/usr/sbin/nologin
+ftp:x:118:125:ftp daemon,,,:/srv/ftp:/bin/false
+

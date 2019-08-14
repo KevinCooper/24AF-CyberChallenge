@@ -1,0 +1,402 @@
+hosts:
+  - machine:
+    type: "win-server-2003"
+    name: "win-server-2003-1"
+    username: "administrator"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2003-1\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_dns/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "dns"
+
+  - machine:
+    type: "win-server-2003"
+    name: "win-server-2003-2"
+    username: "administrator"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2003-2\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_smb/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "smb"      
+
+  - machine:
+    type: "win-server-2003"
+    name: "win-server-2003-3"
+    username: "administrator"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2003-3\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_http/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "http"  
+
+  - machine:
+    type: "win-server-2008"
+    name: "win-server-2008-1"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c netdom renamecomputer %COMPUTERNAME% /newname:win-server-2008-1 /force"
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_http/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "http"
+
+  - machine:
+    type: "win-server-2008"
+    name: "win-server-2008-2"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c netdom renamecomputer %COMPUTERNAME% /newname:win-server-2008-2 /force"
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_dns/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "dns"
+
+  - machine:
+    type: "win-server-2008"
+    name: "win-server-2008-3"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c netdom renamecomputer %COMPUTERNAME% /newname:win-server-2008-3 /force"
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_smb/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "smb"      
+     
+  - machine:
+    type: "win-server-2012"
+    name: "win-server-2012-1"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2012-1\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_dns/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "dns"
+  - machine:
+    type: "win-server-2012"
+    name: "win-server-2012-2"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2012-2\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_smb/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "smb"      
+  - machine:
+    type: "win-server-2012"
+    name: "win-server-2012-3"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "C:\\Windows\\System32\\cmd.exe"
+        arguments: "/c wmic computersystem where name=\"%COMPUTERNAME%\" call rename name=\"win-server-2012-3\""
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_http/"
+        wait: True
+      - action:
+        type: "plugin_cmd"
+        directory: "./plugins/w_new_users/"
+        wait: True
+      - action:
+        type: "restart"
+      - action:
+        type: "snapshot"
+        name: "ready"
+    services:
+      - "http"  
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-1"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-1 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-1 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-1\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp234/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-3"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-3 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-3 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-3\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp235/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-4"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-4 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-4 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-4\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp211/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-6"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-6 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-6 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-6\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp212/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-8"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-8 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-8 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-8\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_proftpd133c/"
+        wait: Tru
+      - action:
+        type: "restart"
+    services:
+      - "ftp"

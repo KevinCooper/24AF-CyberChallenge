@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+{% endblock %}
+{% block content %}
+<div class="row mb-4">
+        <div class="col-md-2">
+            <h4>Agent to add</h4>
+            <form method="post">
+                <div class="form-row">
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" id="username" name="username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" id="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-row mt-2 mb-2">
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" id="address" name="address" placeholder="IP Address">
+                    </div>
+                    
+                </div>  
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-7 offset-md-3">
+            <h4>Agents</h4>
+            {% for agent in data %}
+                <!--<p>{{agent.address}} - {{agent.username}} - {{agent.password}}</p>-->
+            {% endfor %}
+            <div id="agent-table"></div>
+        </div>
+</div>
+
+{% for agent in data %}
+<div class="row">
+        <div class="col-md-5">
+            <div class="row">
+                <h5>{{agent.address}} Processes</h5>
+                <button id="agent-cmd-button-{{agent.id}}"> Run Command</button>
+            </div>
+            <div class="row " >
+                <div class="container-fluid col-md-12">
+                    <div id="agent-table-proc-{{agent.id}}"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5>{{agent.address}} Connections</h5>
+            <div id="agent-table-conn-{{agent.id}}"></div>
+        </div>
+        <div class="col-md-3">
+            <h5>{{agent.address}} Cmds</h5>
+            <div id="agent-table-cmds-{{agent.id}}"></div>
+        </div>
+</div>
+<br />
+{% endfor %}
+
+
+
+{% for agent in data %}
+<script>  
+        var agentTable_proc_{{agent.id}} = new Tabulator("#agent-table-proc-{{agent.id}}", {
+            height: 200, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/agent/{{agent.id}}/procs", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"PID", field:"pid"},
+                {title:"User", field:"user"},
+                {title:"TTY", field:"tty"},
+                {title:"Command", field:"command", widthGrow:3},
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                console.log(row.getData());
+                $.ajax({
+                    url: "/procs",
+                    type: 'POST',
+                    data: row.getData()
+                }).done(function(data) {
+                    alertify.success( "success" +  data);
+                }).fail(function(data){
+                    alertify.error("error" + data);
+                });
+            },
+        });
+    
+        var agentUpdate_proc_{{agent.id}} = setInterval(function(){
+            agentTable_proc_{{agent.id}}.replaceData();
+        },  3000);
+</script>
+
+<script>  
+        var agentTable_conn_{{agent.id}} = new Tabulator("#agent-table-conn-{{agent.id}}", {
+            height: 200, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/agent/{{agent.id}}/netstat", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"Local Addr", field:"laddress"},
+                {title:"Remote Addr", field:"faddress"},
+                {title:"State", field:"state"},
+                {title:"PID", field:"pid"},
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                console.log(row.getData());
+                $.ajax({
+                    url: "/netstat",
+                    type: 'POST',
+                    data: row.getData()
+                }).done(function(data) {
+                    alertify.success( "success" +  data);
+                }).fail(function(data){
+                    alertify.error( "error" + data);
+                });
+            },
+        });
+    
+        var agentUpdate_conn_{{agent.id}} = setInterval(function(){
+            agentTable_conn_{{agent.id}}.replaceData();
+        },  3000);
+</script>
+
+<script>  
+        var agentTable_cmds_{{agent.id}} = new Tabulator("#agent-table-cmds-{{agent.id}}", {
+            height: 200, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/agent/{{agent.id}}/cmds", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"User", field:"user"},
+                {title:"Command", field:"cmd", widthGrow:2},
+                {title:"Time", field:"time" },
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                alert("Row " + row.getData().id + " Clicked!!!!");
+            },
+        });
+    
+        var agentUpdate_cmds_{{agent.id}} = setInterval(function(){
+            agentTable_cmds_{{agent.id}}.replaceData();
+        },  3000);
+
+        $("#agent-cmd-button-{{agent.id}}").click(function(){
+            alertify.prompt("What command do you want to run?.", "whoami",
+                function(evt, value ){
+                    $.ajax({
+                        url: "/execute/{{agent.id}}",
+                        type: 'POST',
+                        data: {'command': value},
+                    }).done(function(data) {
+                        alertify.success( data);
+                    }).fail(function(data){
+                        alertify.error( data);
+                    });
+                },
+                function(){
+                    alertify.error('Canceled');
+                });
+        });
+</script>
+{% endfor %}
+
+<script>  
+        var agentTable = new Tabulator("#agent-table", {
+            height: 200, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            ajaxURL:"/agent/", //ajax URL
+            addRowPos:"top",          //when adding a new row, add it to the top of the table
+            placeholder:"No Data Set",
+            layout:"fitColumns", //fit columns to width of table (optional)
+            columns:[ //Define Table Columns
+                {title:"Address", field:"address"},
+                {title:"Username", field:"username"},
+                {title:"Password", field:"password"},
+                {title:"Status", field:"status" , widthGrow:2},
+            ],
+            rowClick:function(e, row){ //trigger an alert message when the row is clicked
+                //alert("Row " + row.getData().id + " Clicked!!!!");
+                $.ajax({
+                    url: "/agent/"+row.getData().id,
+                    type: 'DELETE'
+                });
+                row.delete();
+            },
+        });
+    
+        var agentUpdate = setInterval(function(){
+            agentTable.replaceData();
+        },  3000);
+
+        
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,12 @@
+BSD-derived versions of telnet are vulnerable to a buffer overflow exploit available in Metasploit.
+Solaris 9 could not be found to be confirmed as vulnerable, however, it likely is.
+These are of interest using telnet_encrypt_keyid exploit.
+Can also scan first before exploiting with telnet_encrypt_overflow.
+
+172.17.50.143
+172.17.50.188
+172.17.50.202
+
+This shows as running BSD-derived telnet but OS was not determined on our scan:
+
+172.17.50.60

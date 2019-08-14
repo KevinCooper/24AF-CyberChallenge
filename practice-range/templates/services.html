@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+{% endblock %}
+{% block content %}
+  <h1>Index</h1>
+  <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Host</th>
+            <th scope="col">Alive</th>
+            <th scope="col">Service</th>
+            <th scope="col">Service Status</th>
+            <th scope="col">Owner</th>
+        </tr>
+    </thead>
+  {% for key, value in status.items() %}
+    <tr>
+        <td>{{ key }}</td>
+        <td>{% if value['alive'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
+        <td>
+            {% if 'ssh' in value %}
+            SSH<br />
+            {% endif %}
+            {% if 'smb' in value %}
+            SMB<br />
+            {% endif %}
+            {% if 'http' in value %}
+            HTTP<br />
+            {% endif %}
+            {% if 'dns' in value %}
+            DNS<br />
+            {% endif %}
+            {% if 'ftp' in value %}
+            FTP<br />
+            {% endif %}
+        </td>
+        <td>
+          {% if 'ssh' in value %}
+            {% if value['ssh'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}<br />
+          {% endif %}
+          {% if 'smb' in value %}
+            {% if value['smb'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}<br />
+          {% endif %}
+          {% if 'http' in value %}
+            {% if value['http'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}<br />
+          {% endif %}
+          {% if 'dns' in value %}
+            {% if value['dns'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}<br />
+          {% endif %}
+          {% if 'ftp' in value %}
+            {% if value['ftp'] %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}<br />
+          {% endif %}
+        </td>
+        <td>{{ value['owner'] }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+  <script>
+      setTimeout(function(){
+        window.location.reload(1);
+      }, 15000);
+  </script>
+{% endblock %}

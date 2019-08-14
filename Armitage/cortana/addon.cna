@@ -1,0 +1,33 @@
+sub continuousScan {
+
+           $console = open_console_tab("Continuous Scan");
+           cmd_echo($console, "Starting Continuous scan, close tab to cancel");
+           $scan_string = "db_nmap --min-hostgroup 96 -T4 -n -sn $net_block";
+           cmd($console, $scan_string);
+           
+           on heartbeat_20m {
+                cmd($console, $scan_string);
+                sleep(5 * 1000);
+                local('$host @t_hosts $newhosts');
+
+                foreach $host (hosts()) {
+                    push(@t_hosts, $host);
+                } 
+                $newhosts =  "" . join(", ", @t_hosts);
+                run_scans($newhosts);
+            }
+
+    on tab_close() {
+        quit();
+    }
+}
+
+
+popup attacks {
+    menu "Team 33 NWS" {
+        item "Team Scan" {
+           $net_block = prompt_text("Enter the network: i.e. 192.168.1.0/24");
+           spawn(&continuousScan, \$net_block);
+        }
+    }
+}

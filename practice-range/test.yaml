@@ -1,0 +1,35 @@
+hosts:
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-21"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-6 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-6 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-6\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp212/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"

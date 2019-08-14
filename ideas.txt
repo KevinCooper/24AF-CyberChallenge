@@ -1,0 +1,6 @@
+1) Auto SSH to hosts from hydra results
+-- Modify BashRC for all users to exfil commands
+-- alias their netstat (hide IP block)
+-- alias their ps
+-- alias their sudo
+2) Script to monitor netstat estbalished connections (w/ easy kill/block method)

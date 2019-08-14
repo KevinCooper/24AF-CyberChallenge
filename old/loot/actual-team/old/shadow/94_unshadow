@@ -1,0 +1,79 @@
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+syslog:x:101:103::/home/syslog:/bin/false
+messagebus:x:102:105::/var/run/dbus:/bin/false
+colord:x:103:108:colord colour management daemon,,,:/var/lib/colord:/bin/false
+lightdm:x:104:111:Light Display Manager:/var/lib/lightdm:/bin/false
+whoopsie:x:105:114::/nonexistent:/bin/false
+avahi-autoipd:x:106:117:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+avahi:x:107:118:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+usbmux:x:108:46:usbmux daemon,,,:/home/usbmux:/bin/false
+kernoops:x:109:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+rtkit:x:111:122:RealtimeKit,,,:/proc:/bin/false
+speech-dispatcher:x:112:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/sh
+hplip:x:113:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+saned:x:114:123::/home/saned:/bin/false
+smmta:x:110:119:Mail Transfer Agent,,,:/var/lib/sendmail:/bin/false
+smmsp:x:115:120:Mail Submission Program,,,:/var/lib/sendmail:/bin/false
+statd:x:116:65534::/var/lib/nfs:/bin/false
+kkatarn:$6$oeEk3pk.$0AENongNFEkntB4TNCMvXu.SfsPnxYV4sOSdOStZrlK1Ksek9rKC1.Eprj5ngGdvJYax3W3B8AjhXAbJp3Dut0:1001:1001:kkatarn:/home/kkatarn:/bin/bash
+revan:$6$CCCKtIcu$04DGNIHpjQd6NExwMN6nhhnTKTz/kYdjzw0kzUrWaQnE6B6THu8NhmX6qtDqIWsbWQ8nVqAe46MV/3y3uSoty0:1002:1002:revan:/home/revan:/bin/bash
+mjade:$6$ENUN2mg3$ANL4KbwuwxuQgMBTqlrSF/P/4/Ra.UwjCLoo4y0iXyQRn.BO/i1JTzdxgICvEM3WEq0D.4n26fQslxv5yXLdm0:1003:1003:mjade:/home/mjade:/bin/bash
+qjinn:$6$uXVfCL.P$oypBNRDkA5c5y../2htXMB2f/ytRLy5U92SRQpvWwpU9uuJpMQjdXkHVoAzxsYzDUyOVGWzJqR.u3ntKsT.dU.:1004:1004:qjinn:/home/qjinn:/bin/bash
+mwindu:$6$rOTzf7KV$thjq03ELT17bgt9mK3oE/5pfqzZR8TA.X6kykP9jh4yi/HTlo.rQMG5CskiWgXkQKQkaqxvcTNqtvVlv3YGGw/:1005:1005:mwindu:/home/mwindu:/bin/bash
+lskywalker:$6$uqCzL9Dj$pyxEfjfCk/dlbSH2bXsrN9hiJXx.Vvi3iCHB99j1fTqRkmBFNAWLVSGl0347cUqG9YkiOOCzKTL1eKYSB.Aae1:1006:1006:lskywalker:/home/lskywalker:/bin/bash
+okenobi:$6$I7tf1Izr$RzXms5h3oUEB2qq/arbLgnX2TmkeW8fb/.E0X5DTksmTl3SWmUj/.mKAqk3Hr2ku4y9lTnXe5x7JEYxHOx7OL1:1007:1007:okenobi:/home/okenobi:/bin/bash
+yoda:$6$4CcMkYvh$zFREvHw6V.hHPlvPZvFWG3.B6Eal/gva5lXOabzZuy11DPg2vdc8l76vZDa8XUe5.jFeTxHorGbl6tHYtHhG.1:1008:1008:yoda:/home/yoda:/bin/bash
+pkoon:$6$fHElul4p$HSEWgCJawvbEooz6bLuN/7Sd/bB8paTgSWRBcnjYQ4MNYkwGsCAxaJKy.D4xAl07RoH97T8OccQj3hM8SHcMx/:1009:1009:pkoon:/home/pkoon:/bin/bash
+kfisto:$6$oCtdX1.U$eohcqjgADsuTzU.xTCXc5WPJdRJTPkOnJZS0VNyBDFFyT8q8gYkxews76rLttzSUzFvpAB6.7.oIXE71XYZru1:1010:1010:kfisto:/home/kfisto:/bin/bash
+msurik:$6$ocQbkPSw$el7vQBgU7fL2d/09Md4tUm2WyxlefJ29odXyZhlG8nhTAYt4AllWyp26WnumZ8lwO/CoON5Hiw8MGkA.uJqEc/:1011:1011:msurik:/home/msurik:/bin/bash
+gackbar:$6$u1RltQTR$TS5lN.thxh8AE2.HusQy56.EtwzfOdmxOvICJMDvYWULw79aaiHN392ABN3/NITvWdquWiV7IwLx07vwoxuiN0:1012:1012:gackbar:/home/gackbar:/bin/bash
+chewbacca:$6$PDSbmSZd$G6pCPbC3NfH1Dmcgp/vny/c2kBXXF7BnJ3wQCuOopG3fw.zKPYrDMyLzU2tljBcGrNIzqe7k4kFNEMEP1bJ5b1:1013:1013:chewbacca:/home/chewbacca:/bin/bash
+arand:$6$9b12uZDd$NR0BQviEhG7QxHXhCvXy9VKJx3PAuahlUpFJGjxRlmthXennhGsImuBH9STiatSOuUjQXC2nwGV2FpwBgpRHB/:1014:1014:arand:/home/arand:/bin/bash
+borgana:$6$R.Dt1z5u$pY7Jic7/PI7P1FTKHSVouJ..tfzbsFa1/OJPYKXzcTTglWxnRqYDwhhHsQeMjxp9UsdrSc62ld/PoigAmPKa70:1015:1015:borgana:/home/borgana:/bin/bash
+bskywalker:$6$1FwD01Ja$GFO8uz2l6L8ySaDcF6cLks6ObusTH1wozQguw1UIcMQ17WdsZ/gEnfI5wLlRoaZWbtTIpI.KQdyR2rAq2XcES0:1016:1016:bskywalker:/home/bskywalker:/bin/bash
+jbindo:$6$0QfQ3tS/$tc.8gXqJqXTNxBUTTottDIzultJ/BKJ2DUpW0RqDJfOK6XTaqlDCSDE/stmTbGY122UGw9Yr2zt9uEw1QB1dr0:1017:1017:jbindo:/home/jbindo:/bin/bash
+hk47:$6$yXElogd8$mp3nLlmVtq/dm92w49iu85xI9CH7BKE3MlPx2TFhRR5YQtSI0tYb1RTlmd61i9wDsOWBJZn3UjZlVObv0CgOZ.:1018:1018:hk47:/home/hk47:/bin/bash
+mmothma:$6$unl8fgrN$ImQM2c8gHk2FRimAxjKVLsmgdOXWxiO68x.Xk.73Y.68HrMicM5kbziYJ01Ny7gg5Skx.dSGUDvq8.2CX8/XP1:1019:1019:mmothma:/home/mmothma:/bin/bash
+lorgana:$6$pBgR6E8N$deojyc400WC9tj0zXXRgG9ABbhkx/F0ykgWFmVoirZkeQzVnHwaeGbcUdXVLkm2x7ity8W2MFFgtYBQZMk4lM.:1020:1020:lorgana:/home/lorgana:/bin/bash
+vmarr:$6$LcEWMIax$ljj0Qch6EHIu3y6QhkMdwh.PhFo3dvWRw/ufH9dshxenIE8ekgHnsSmFRfabGoE0RZyjS8dGTNqI2vS0aRMbZ1:1021:1021:vmarr:/home/vmarr:/bin/bash
+askywalker:$6$0xScRyeI$90Tk9iJlQMX2sbMlbD5XQXS1hCP3t8pP1Yengo9IoOxAZS0CXDF2AvuEQ/x/5ss5EEr7QMGhwEZ2wOpnSjvMN/:1022:1022:askywalker:/home/askywalker:/bin/bash
+lcalrissian:$6$wATEEUyA$oO56Nx4XzImAsdq7FyKj8ccCEFouUkPTRvJuLhBG5HPd5LLpNmEstHRiKo6w/Rb65T.F7H7oWPNlrXOE0Ue8m/:1023:1023:lcalrissian:/home/lcalrissian:/bin/bash
+huyang:$6$TwSZKogz$YYen58szuggleAjsqAPfayCnro9gYhTE/mE67K.EeCPrHBwdyZLD/HuT3pz44xSAfoDxme2anudJ0DtLlYaIo/:1024:1024:huyang:/home/huyang:/bin/bash
+bjermer:$6$cVRkpmCX$n5QFiOKA0TOLBf1uaC.YdJe2pdlN4YC6ZOazcSJUQ3uL92IH8ImzzKZNyjX3oWmr1UDAZ8dJpSrOLKpYblLuB.:1025:1025:bjermer:/home/bjermer:/bin/bash
+hsolo:$6$znbBOh8L$o9gj6pAUC7yyWoTmP29.mnIz1l26F82TbM2S.uJClaTT5QrCJif6fTyUPjfB3ujQK9vcBIJGHnC10FtKHIYl40:1026:1026:hsolo:/home/hsolo:/bin/bash
+r2d2:$6$A/g/wik3$VqVDNWDY7qMDxGCMm/YvXQAqqxyQeCtAaExsUt6XcH0dMCajA60e8pwxRpbzTxIc64iEyWCMCEPyVs7erJld/1:1027:1027:r2d2:/home/r2d2:/bin/bash
+zaalbar:$6$QaTvXqZM$xgQZLsParEDL/mJcS7H6I73INCUIH34WZ7R8tt0qp7Bn9p5.mNSPJTZS.B4723vm78zkEdeF6sRUqGAGRASHH0:1028:1028:zaalbar:/home/zaalbar:/bin/bash
+hanharr:$6$lSHn2v.j$D5IvKhOuUkNs678NDpSL3gzM5UedbV2Dc2wIhYYDKOqSLeB1iauFIj5m1HYB7Zr4Vb795S3I3hXPiXPA1rXbB1:1029:1029:hanharr:/home/hanharr:/bin/bash
+c3po:$6$TQshQ7cX$GWgGAu538gHZ0w88FVEYmYji/.nQdikgc1VQwpzFtlqyXOh.9MC073Zfi1ZJvpWtAQKkbvYh7BM7Tj1PNPw3h.:1030:1030:c3po:/home/c3po:/bin/bash
+pamidala:$6$1jgSO1Tg$NPrTPgC8D0KeQ1lctaThQpUkX/cdveQhY2yrA75DRxLnI3/nEfTnvyyeyhgoxOiqtPlB3Gk4LdFmgnhgjKAk60:1031:1031:pamidala:/home/pamidala:/bin/bash
+wantilles:$6$aJZnsNl5$iBxHwoy/dH/Su6lNZBj03F5IdAGRpGuu3nam90X.i8IVv7kcys93SjpwsfKJuRN4IORcXgBEnJKjeH34jErhg.:1032:1032:wantilles:/home/wantilles:/bin/bash
+t3m4:$6$gd3wreSs$nvk966.OdQhlmV4EjgwbYCdkZexpbXfkVm2pip5CgyfHNS1cfkJnWLpOb7LJtRacRh7kd7khFhSr12HGND8BM1:1033:1033:t3m4:/home/t3m4:/bin/bash
+cordo:$6$cg.Nkk4Z$50oK2mWVhW4nlQRW2.G8Hat7.QceNBY1q5MArxZy1ICk7zRw81Eqqld8N8tWCf/14TaF5USaW0vXN2e5CTOZB.:1034:1034:cordo:/home/cordo:/bin/bash
+bshan:$6$WiKiGT.j$GON.sBh0Z/1995MAMIzK0bOkm22quwVaBSYa.hSMynLA/hFNeart6kv/RXUAtvcUPzSa2ldDiKdP56esb02o00:1035:1035:bshan:/home/bshan:/bin/bash
+conasi:$6$JM26Zsmo$CTmC2v3dFowmajeE/lAFw3D41XZNvbMeuf9FLvloppFHh6vkXN8IcOrAJEjrVedAgB01qsVrXaWeHtNak1cwc1:1036:1036:conasi:/home/conasi:/bin/bash
+mvao:$6$6GJ78sHd$dLdw.lRXgkwrAc0T.lFGo1Uy7W9ooPryQhBoih7q8P/qmItLZvt7IKY8OzRp5wteZMiiLiriMM6xnOwkR1JhY1:1037:1037:mvao:/home/mvao:/bin/bash
+jporkins:$6$C5xfA3pW$AFovXwEJLRo0CZ/EV2aP3DGAvAt8H6.3eQ3tSJ6gYLUgj/YhMrpSIoc1XWD4VraOv9mKL4kyyAJjDt9frBalR1:1038:1038:jporkins:/home/jporkins:/bin/bash
+moconnor:$6$5bGwfQ1C$F/erWm6mUig7vsvoWQZDY0yOqO3odt07a9kZc8/cGdDYIxhJd5/qOOwFu5mWBJPfJ0MKWjTpPg2tV7Z0gcuT9.:1039:1039:moconnor:/home/moconnor:/bin/bash
+grievous:$6$QyqYkCdeiPjnrFyE$ir.rIYVUmLaAt95NkQjJo2vUc1L2akdLUfQ7sNg9pKRJFmGxdwG91uTunas7QEpn.TZKSGTyVwbO7r.vXGUXm0:1040:1040:grievous,,,:/home/grievous:/bin/bash
+bfortuna:$6$seobT2DTi0SlBgMd$r3/lipYtjRiXw6ucb7.RuIEqTvuDBuFVg1/DlTFSbO60KKT9AUaJB/AFtsP/nZOjse1BZTO3RN3YifZhUMNtD0:1041:1041:bfortuna,,,:/home/bfortuna:/bin/bash
+jcbaoth:$6$YzVUcEdu325c8tQX$tgUkt9UYRHcwIo55/rhwxz/hXDId3xxlJUMRmjdQJYoeXaLJ3Hz2Fpnn9DZjSiM1qVuSFpWMmDVoBrn4cmW7S.:1042:1042:jcbaoth,,,:/home/jcbaoth:/bin/bash
+sshd:x:117:65534::/var/run/sshd:/usr/sbin/nologin
+ftp:x:118:125:ftp daemon,,,:/srv/ftp:/bin/false

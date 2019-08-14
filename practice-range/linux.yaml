@@ -1,0 +1,307 @@
+hosts:
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-1"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-1 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-1 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-1\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp234/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-2"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-2 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-2 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-2\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp303/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-3"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-3 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-3 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-3\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp235/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-4"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-4 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-4 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-4\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp211/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-6"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-6 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-6 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-6\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_vsftp212/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-7"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-7 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-7 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-7\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_proftpd135/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-8"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-8 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-8 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-8\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_proftpd133c/"
+        wait: Tru
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-9"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-9 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-9 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-9\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_proftpd133/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"
+  - machine:
+    type: "lin-server-ubuntu14"
+    name: "lin-server-ubuntu14-5"
+    username: "user"
+    password: "password"
+    actions:
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo lin-server-ubuntu14-5 > /etc/hostname\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.0.1 localhost > /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"echo 127.0.1.1 lin-server-ubuntu14-5 >> /etc/hosts\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"hostname lin-server-ubuntu14-5\""
+      - action:
+        type: "execute"
+        program: "/usr/bin/sudo"
+        arguments: "/bin/bash -c \"service hostname restart\""
+      - action:
+        type: "plugin_bash"
+        directory: "./plugins/l_proftpd132/"
+        wait: True
+      - action:
+        type: "restart"
+    services:
+      - "ftp"

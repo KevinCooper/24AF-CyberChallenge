@@ -1,0 +1,102 @@
+global('%s_commands %p_commands');
+%s_commands = %();
+%p_commands = %();
+
+popup beacon_top {
+    menu "Command Loop"{
+        item "Powershell Command" {
+                local('$bid');
+                foreach $bid ($1) {
+                    powershellLoop($bid);
+                }
+        }
+        item "Shell Command" {
+                local('$bid');
+                foreach $bid ($1) {
+                    shellLoop($bid);
+            }
+        }
+        item "Clear Commands" {
+                local('$bid');
+                foreach $bid ($1) {
+                    $host = binfo($bid, "external");
+                    removeAt(%p_commands, $host);
+                    removeAt(%s_commands, $host);
+                }
+        }
+        item "View Commands" {
+                local('$bid');
+                foreach $bid ($1) {
+                    $host = binfo($bid, "external");
+                    $command1 = %p_commands[$host];
+                    $command2 = %s_commands[$host];
+                    show_message("I==== $host ====I\nPowershell: $command1\n Command: $command2");
+                }
+        }
+    }
+}
+
+sub powershellLoop {
+    local('$command');
+    $bid = $1;
+    $host = binfo($bid, "external");
+
+    if($host in %p_commands){
+    	$command = %p_commands[$host];
+    } else {
+    	$command = "Powershell Command Here";
+    }
+
+    $dialog = dialog("Powershell Loop", %(command => $command), lambda({
+        $command = $3['command'];
+        #println("$host Adding $command");
+        %p_commands[$host] = $command;
+    }), $host => $host);
+
+    dialog_description($dialog, "Schedule a powershell command to run every 15 seconds on $host");
+    drow_text($dialog, "command", "Powershell:");
+
+    dbutton_action($dialog, "Create");
+    dialog_show($dialog);
+
+}
+
+sub shellLoop {
+    local('$command');
+    $bid = $1;
+    $host = binfo($bid, "external");
+
+    if($host in %s_commands){
+    	$command = %s_commands[$host];
+    } else {
+    	$command = "Shell Command Here";
+    }
+
+    $dialog = dialog("Shell Loop", %(command => $command), lambda({
+        $command = $3['command'];
+        #println("$host Adding $command");
+        %s_commands[$host] = $command;
+    }), $host => $host);
+
+    dialog_description($dialog, "Schedule a cmd command to run every 15 seconds on $host");
+    drow_text($dialog, "command", "Cmd:");
+
+    dbutton_action($dialog, "Create");
+    dialog_show($dialog);
+}
+
+on heartbeat_15s {
+    foreach $beacon (beacons()) {
+        $bid = $beacon['id'];
+        $host = binfo($bid,"external");
+        if ($host in %p_commands){
+            $command = %p_commands[$host];
+            bpowershell($bid, $command);
+        }
+        if ($host in %s_commands){
+            $command = %s_commands[$host];
+            bshell($bid, $command);
+        }
+    }
+}
+

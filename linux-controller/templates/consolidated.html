@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Consolidated{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+{% endblock %}
+{% block content %}
+
+<div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h5>Stuff</h5>
+            <div id="data-table"></div>
+        </div>
+</div>
+
+<script>
+
+var update = true;
+var dataTable = new Tabulator("#commands-table", {
+    height: 500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    ajaxURL:"/commands", //ajax URL
+    addRowPos:"top",          //when adding a new row, add it to the top of the table
+    placeholder:"No Data Set",
+    layout:"fitColumns", //fit columns to width of table (optional)
+    columns:[ //Define Table Columns
+        {title:"Host IP", field:"cmdip"},
+        {title:"User", field:"user"},
+        {title:"PID", field:"pid"},
+        {title:"Command", field:"cmd", widthGrow:2},
+        {title:"Time", field:"time" },
+    ],
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+        alert("Row " + row.getData().id + " Clicked!!!!");
+    },
+});
+var wut = setInterval(function(){
+    if(update){
+        dataTable.replaceData();
+    }
+},  2000);
+
+</script>
+
+{% endblock %}

